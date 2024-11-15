@@ -1,5 +1,5 @@
 ---
-welcome_message: "Hello {user_full_name}! \nSend me a post you want, I will pass it to admins"
+welcome_message: "Hi, {user_full_name}! \nSend me a post and I will pass it to admins."
 thanks_message: "Thanks, message sent to admins, you are greatly appreciated!"
 thanks_sticker:
   - CAACAgIAAxkBAAOiZRDnD4XJdYuBXTzf_Ot9KH25iyEAApASAAIaWglJ8pDuOlI6QjUwBA
@@ -14,7 +14,7 @@ thanks_sticker:
   - CAACAgIAAxkBAAIDY2XOeYUG0mkTAAHoPfq5jckIQqUR5QACZUwAAgu-WUinZbuouPy7zzQE
   - CAACAgIAAxkBAAIDb2XOeiIMlEsi03HfTMwYSUWuaB85AALmDgACx6KISEInV04AAR-87zQE
 
-new_member_message: "Hello, {user_full_name}, read the rules in group description"
+new_member_message: "hiiiii {user_full_name} :3"
 new_member_sticker:
   - CAACAgIAAxkBAAIBNWURDvuxhT0vyCU3lQ8mgcXq9HvOAAJGDAACaxlYSnsuqbefOaqFMAQ
   - CAACAgUAAxkBAAIBN2URDwusbf2WYg4VUYGP9ndtF2I8AALsCAAC8bOxVsrcu--rZPA1MAQ
