@@ -1,13 +1,16 @@
-import yaml
-from pydantic import SecretStr, BaseModel, model_validator
-from pydantic_settings import BaseSettings
 from typing import Optional
+from os import path
+import yaml
+from pydantic import SecretStr, BaseModel, model_validator, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_extra_types.timezone_name import TimeZoneName
 
-with open('messages.yml', 'r') as stream1:
+file_path = path.join(path.dirname(__file__), 'messages.yml')
+with open(file_path, "r", encoding="utf-8") as stream1:
     messages_kwargs = yaml.safe_load(stream1)
 
 
-class messages(BaseModel):
+class Messages(BaseModel):
     welcome_message: str = None
     thanks_message: str = None
     thanks_sticker: list[str] = []
@@ -31,9 +34,9 @@ class Settings(BaseSettings):
     POSTGRES_DB: Optional[str] = None
     POSTGRES_USER: Optional[str] = None
     POSTGRES_PASSWORD: Optional[SecretStr] = None
-
-    class Config:
-        env_file = ".env"
+    HASH_SALT: Optional[SecretStr] = SecretStr(Field("salt", max_length=16))
+    TIMEZONE: TimeZoneName = "UTC"
+    model_config = SettingsConfigDict(env_file='.env')
 
     @model_validator(mode="after")
     def validate_db_uri(self) -> "Settings":
@@ -45,17 +48,13 @@ class Settings(BaseSettings):
                 and self.POSTGRES_PASSWORD is not None
             ):
                 self.DATABASE_URI = SecretStr(
-                    "postgresql+asyncpg://{username}:{password}@{host}:{port}/{database}".format(
-                        username=self.POSTGRES_USER,
-                        password=self.POSTGRES_PASSWORD.get_secret_value(),
-                        host=self.POSTGRES_HOST,
-                        port=self.POSTGRES_PORT,
-                        database=self.POSTGRES_DB,
-                    ))
+                    f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD.get_secret_value()}@"
+                    f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+                )
             else:
                 self.DATABASE_URI = SecretStr("sqlite+aiosqlite:///db.sqlite")
-            return self
+        return self
 
 
 Config = Settings()
-Messages = messages(**messages_kwargs)
+Messages = Messages(**messages_kwargs)

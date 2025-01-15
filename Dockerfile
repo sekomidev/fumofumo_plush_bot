@@ -1,15 +1,12 @@
-FROM python:3.11-alpine
+FROM python:3.13-alpine
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-RUN apk update && apk add --no-cache \
-    build-base \
-    libpq-dev \
-    python3-dev
+RUN apk add --no-cache tzdata
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY app/ .
 

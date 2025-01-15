@@ -8,7 +8,7 @@ No docker packages or whatever here cause I'm too dumb to use it.
 
 
 ## Used technologies
-* Python 3.11 with asyncio, data validation and typing
+* Python 3 with asyncio, data validation and typing
 * aiogram 3
 * sqlalchemy asyncio wth SQLite for development or Postgres for production
 * Docker and Docker Compose
@@ -18,6 +18,8 @@ No docker packages or whatever here cause I'm too dumb to use it.
 - `TELEGRAM_BOT_TOKEN=Your_token`
 - `LOG_LEVEL=INFO` loglevel
 - `ADMIN_CHAT_ID=238637902` To get ADMIN_CHAT_ID start bot and send him */id* command
+- `HASH_SALT` Optional salt for [hashing](https://docs.python.org/3/library/hashlib.html#randomized-hashing).
+- `TIMEZONE` Timezone for scheduler and commands that work with time. If not provided - UTC timezone wil be used. 
 ### env for postgres (if they are not specified, then sqlite will be used):
 - `POSTGRES_HOST` postgress db host
 - `POSTGRES_PORT`  postgress db port
@@ -79,5 +81,7 @@ docker compose -f docker-compose.yml up -d
  - `/add_fumo` FSM for adding fumos to db
  - `/cancel` exit from FSM
  - `/list_fumos` list all fumos in db.
- - `/list_fumos name` list fumos by name in db.
+ - `/list_fumos name` list fumos by name in db. List all if name not provided. 
  - `/update_fumo_cache` Fumos cache updating daily, you can manually update it with this command
+ - `/download_fumo_images name` Download fumo images from bot. For backup or transfer between bots. Download all if name not provided. 
+ - `/import_fumo_images name` Import fumo images. Bot will uppload images located in media/photos/ and add/update file_id to db. Import all if name not provided. Can be used for mass image update of transfer images between bots.
